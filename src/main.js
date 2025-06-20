@@ -8,6 +8,7 @@ const routesUser = require('./routes/routesUser')
 const routesPost = require('./routes/routesPost')
 const routesComment = require('./routes/routesComment')
 const routesTag = require('./routes/routesTag')
+const auth = require('./middlewares/authMiddleware')
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -16,7 +17,7 @@ app.use(cors())
 app.use(express.json())
 
 // Rutas
-app.use('/users', routesUser)
+app.use('/users', auth, routesUser)
 app.use('/posts', routesPost)
 app.use('/comments', routesComment)
 app.use('/tags', routesTag)
