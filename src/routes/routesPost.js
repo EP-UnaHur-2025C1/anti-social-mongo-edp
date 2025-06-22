@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const validarPost = require('../controllers/validarPost')
+const validarPost = require('../controllers/postController')
 
 router.get('/', validarPost.obtenerTodos)
 router.get('/:id', validarPost.obtenerUno)

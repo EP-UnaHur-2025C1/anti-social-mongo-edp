@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const validarTag = require('../controllers/validarTag')
+const validarTag = require('../controllers/tagController')
 
 router.get('/', validarTag.obtenerTodos)
 router.get('/:id', validarTag.obtenerUno)

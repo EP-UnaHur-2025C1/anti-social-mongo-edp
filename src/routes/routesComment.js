@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const validarComment = require('../controllers/validarComment')
+const validarComment = require('../controllers/commentController')
 
 router.get('/', validarComment.obtenerTodos)
 router.get('/:id', validarComment.obtenerUno)
