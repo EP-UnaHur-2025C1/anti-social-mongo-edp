@@ -1,0 +1,412 @@
+openapi: 3.0.0
+info:
+  title: UnaHur Anti-Social API
+  description: API para la red social Anti-Social creada con Node.js
+  version: 1.0.0
+servers:
+- url: http://localhost:3000
+paths:
+  /auth/login:
+    post:
+      tags:
+      - Auth
+      summary: Login de usuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/auth_login_body'
+        required: true
+      responses:
+        "200":
+          description: Token JWT
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+  /auth/register:
+    post:
+      tags:
+      - Auth
+      summary: Register de usuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/auth_register_body'
+        required: true
+      responses:
+        "200":
+          description: Usuarios registrado
+  /users:
+    get:
+      tags:
+      - Users
+      summary: Obtener todos los usuarios
+      responses:
+        "200":
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      tags:
+      - Users
+      summary: Crear nuevo usuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "201":
+          description: Usuario creado
+  /users/{id}:
+    get:
+      tags:
+      - Users
+      summary: Obtener usuario por ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    put:
+      tags:
+      - Users
+      summary: Editar usuario
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "200":
+          description: Usuario actualizado
+    delete:
+      tags:
+      - Users
+      summary: Eliminar usuario
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Usuario eliminado
+  /posts:
+    get:
+      tags:
+      - Posts
+      summary: Obtener todos los posts
+      responses:
+        "200":
+          description: Lista de posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+    post:
+      tags:
+      - Posts
+      summary: Crear post nuevo (con imágenes opcionales)
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/posts_body'
+        required: true
+      responses:
+        "201":
+          description: Post creado correctamente
+  /posts/{id}:
+    get:
+      tags:
+      - Posts
+      summary: Obtener post por ID
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Post encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+    put:
+      tags:
+      - Posts
+      summary: Editar post
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+        required: true
+      responses:
+        "200":
+          description: Post actualizado
+    delete:
+      tags:
+      - Posts
+      summary: Eliminar post
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Post eliminado
+  /comments:
+    get:
+      tags:
+      - Comments
+      summary: Obtener todos los comentarios
+      responses:
+        "200":
+          description: Lista de comentarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+    post:
+      tags:
+      - Comments
+      summary: Crear nuevo comentario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+        required: true
+      responses:
+        "201":
+          description: Comentario creado
+  /tags:
+    get:
+      tags:
+      - Tags
+      summary: Obtener todas las etiquetas
+      responses:
+        "200":
+          description: Lista de tags
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tag'
+    post:
+      tags:
+      - Tags
+      summary: Crear nuevo tag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tag'
+        required: true
+      responses:
+        "201":
+          description: Tag creado
+  /users/follow/{id}:
+    post:
+      tags:
+      - Users
+      summary: Seguir a un usuario
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Ahora seguís al usuario
+  /users/unfollow/{id}:
+    post:
+      tags:
+      - Users
+      summary: Dejar de seguir a un usuario
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Dejaste de seguir al usuario
+components:
+  schemas:
+    User:
+      required:
+      - email
+      - nickname
+      - password
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        nickname:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+        followers:
+          type: array
+          items:
+            type: string
+            format: uuid
+        following:
+          type: array
+          items:
+            type: string
+            format: uuid
+    Post:
+      required:
+      - description
+      - user
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        description:
+          type: string
+        images:
+          type: array
+          items:
+            type: string
+            description: Ruta o URL de la imagen
+        user:
+          type: string
+          format: uuid
+        tags:
+          type: array
+          items:
+            type: string
+            format: uuid
+        createdAt:
+          type: string
+          format: date-time
+    Comment:
+      required:
+      - content
+      - post
+      - user
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        content:
+          type: string
+        post:
+          type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        visible:
+          type: boolean
+    Tag:
+      required:
+      - name
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        posts:
+          type: array
+          items:
+            type: string
+            format: uuid
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: Token JWT de sesión
+    auth_login_body:
+      required:
+      - nickname
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    auth_register_body:
+      required:
+      - email
+      - nickname
+      - password
+      type: object
+      properties:
+        nickname:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+    posts_body:
+      required:
+      - description
+      type: object
+      properties:
+        description:
+          type: string
+        images:
+          type: array
+          items:
+            type: string
+            description: Imágenes opcionales del post
+            format: binary

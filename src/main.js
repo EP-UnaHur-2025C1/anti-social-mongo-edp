@@ -10,7 +10,6 @@ const routesUser = require('./routes/routesUser')
 const routesPost = require('./routes/routesPost')
 const routesComment = require('./routes/routesComment')
 const routesTag = require('./routes/routesTag')
-const authenticateToken = require('./middleware/authentication')
 const authRoutes = require('./routes/routesAuth')
 
 app.use(cors())
@@ -21,18 +20,23 @@ app.use('/posts', routesPost)
 app.use('/comments', routesComment)
 app.use('/tags', routesTag)
 app.use('/auth', authRoutes)
+app.use('/uploads', express.static('uploads'))
 
 app.get('/', (req, res) => {
   res.send('Hola mundo')
 })
 
 //TESTEOS
-app.get('/testUsers', authenticateToken, (req, res) => {
-  res.json(testUsers.filter(testUser => testUser.nickname === req.user.name))
-})
+//app.get('/testUsers', authenticateToken, (req, res) => {
+//  res.json(testUsers.filter(testUser => testUser.nickname === req.user.name))
+//})
 
+const swaggerUi = require('swagger-ui-express')
+const YAML = require('yamljs')
+const swaggerDocument = YAML.load('./swagger.yaml')
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 // Conexión a MongoDB y arranque del servidor
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.DB_URI)
   .then(() => {
     console.log('Conectado a MongoDB')
     app.listen(PORT, () => {
