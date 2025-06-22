@@ -68,6 +68,50 @@ Los sponsors definieron los siguientes nombres y descripciones para las entidade
    - Entregar las colecciones necesarias para realizar pruebas (por ejemplo, colecciones de Postman o archivos JSON de ejemplo).
 
 ###
+# Explicacion
+
+### Config
+Función: Gestiona la configuración y conexión a la base de datos MongoDB.
+Centraliza la conexión para evitar redundancia y facilita el cambio de la base de datos si fuera necesario.
+
+db.js: Configura Mongoose para conectarse a MongoDB usando variables de entorno, maneja errores de conexión y confirma cuando la conexión es exitosa.
+
+### Controllers
+Función: Contiene la lógica principal para procesar las operaciones del backend. Cada controlador maneja una entidad específica y sus operaciones CRUD.
+Centraliza la lógica de negocio, manteniendo el código modular y fácil de mantener.
+
+authController.js: Gestiona el login y registro de usuarios, generando y validando tokens JWT para autenticación segura.
+crudController.js: Función genérica para crear controladores CRUD reutilizables, reduce la duplicación de código.
+commentController.js, postController.js, tagController.js, userController.js: Controladores específicos para manejar comentarios, posts, etiquetas y usuarios respectivamente, utilizando el controlador genérico para las operaciones CRUD.
+
+### Middleware
+Función: Contiene funciones que se ejecutan entre la solicitud y la respuesta, para validar datos y controlar la autenticación.
+Garantiza la integridad de los datos y la seguridad del sistema al verificar tokens y validar la entrada antes de que lleguen a los controladores.
+
+authentication.js: Middleware que verifica la validez del token JWT en las solicitudes protegidas y añade la información del usuario autenticado a la petición.
+validarComment.js, validarPost.js, validarTag.js: Middlewares que validan los datos entrantes para comentarios, publicaciones y etiquetas respectivamente, usando reglas estrictas para evitar errores y datos inconsistentes.
+
+### Models
+Función: Define la estructura y relaciones de los datos mediante esquemas de Mongoose para cada entidad del sistema.
+Modela cómo se almacenan los datos en MongoDB, estableciendo reglas de validación y referencias para mantener la integridad referencial.
+
+comment.js: Modelo para comentarios, incluyendo referencia al usuario y al post, estado de visibilidad y fecha de creación.
+post.js: Modelo para publicaciones, con referencia al usuario, texto, imágenes, etiquetas y fecha.
+tag.js: Modelo para etiquetas, asegurando nombres únicos para facilitar la categorización.
+user.js: Modelo para usuarios con campos como nickname único, email, contraseña y fecha de creación.
+
+### Routes
+Función: Define los endpoints HTTP que expone la API, asociando rutas con controladores para cada entidad.
+Organiza las rutas de forma modular, facilitando el mantenimiento y la escalabilidad del backend.
+
+routesAuth.js: Rutas para autenticación, login y registro.
+routesComment.js, routesPost.js, routesTag.js, routesUser.js: Rutas CRUD para comentarios, publicaciones, etiquetas y usuarios, conectadas con sus respectivos controladores.
+
+### Seeders
+Función: Scripts para insertar datos iniciales en la base de datos para pruebas y desarrollo.
+Permite tener un entorno de pruebas consistente con datos reales para facilitar el desarrollo y la validación de funcionalidades.
+
+seed.js: Conecta con la base de datos, limpia las colecciones y crea usuarios, posts, etiquetas y comentarios de ejemplo.
 
 # Recomendaciones y ayudas
 
