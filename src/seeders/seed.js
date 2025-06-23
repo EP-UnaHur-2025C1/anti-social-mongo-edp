@@ -18,6 +18,7 @@ async function connectDB() {
 
 async function seedDatabase() {
   try {
+    // Eliminar todo
     await Promise.all([
       User.deleteMany(),
       Post.deleteMany(),
@@ -25,57 +26,61 @@ async function seedDatabase() {
       Tag.deleteMany()
     ])
 
+    // Insertar usuarios
     const users = await User.insertMany([
-      { nickname: 'carryxn' },
-      { nickname: 'trito' },
-      { nickname: 'messias' }
+      { nickname: 'carryxn', email: 'carryxn@mail.com', password: '123456' },
+      { nickname: 'trito', email: 'trito@mail.com', password: '123456' },
+      { nickname: 'messias', email: 'messias@mail.com', password: '123456' }
     ])
 
+    // Insertar tags
     const tags = await Tag.insertMany([
       { name: 'javascript' },
       { name: 'unahur' },
       { name: 'backend' }
     ])
 
+    // Insertar posts
     const posts = await Post.insertMany([
       {
         user: users[0]._id,
-        text: 'Hola mundo desde UnaHur Anti-Social!',
-        date: new Date(),
-        images: ['https://via.placeholder.com/300'],
+        text: 'Hola mundo!',
+        createdAt: new Date(),
+        images: ['uploads/198642058.webp'], // imagen local
         tags: [tags[0]._id, tags[1]._id]
       },
       {
         user: users[1]._id,
         text: 'Probando MongoDB con seeders',
-        date: new Date(),
+        createdAt: new Date(),
         tags: [tags[2]._id]
       }
     ])
 
+    // Insertar comentarios
     await Comment.insertMany([
       {
         post: posts[0]._id,
         user: users[1]._id,
-        text: 'Muy buen post!',
-        date: new Date(),
+        content: 'Muy buen post!',
+        createdAt: new Date(),
         visible: true
       },
       {
         post: posts[0]._id,
         user: users[2]._id,
-        text: 'Me encanta esta red social',
-        date: new Date(),
+        content: 'Me encanta esta red social',
+        createdAt: new Date(),
         visible: true
       }
     ])
 
-    console.log('Seeders completados con éxito')
-    process.exit()
+    console.log('Seeders completados con éxito');
+    process.exit();
   } catch (err) {
-    console.error('Error al sembrar datos:', err)
-    process.exit(1)
+    console.error('Error al cargar datos:', err);
+    process.exit(1);
   }
 }
 
-connectDB().then(seedDatabase)
+connectDB().then(seedDatabase);

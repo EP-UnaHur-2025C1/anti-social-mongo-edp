@@ -3,29 +3,37 @@ const crearControladorCRUD = require('./crudController')
 
 userController = crearControladorCRUD(User, ['nickname', 'email'])
 
+
 //Seguir a un usuario
 userController.seguirUsuario = async (req, res) => {
-  const currentUserId = req.user.id
-  const userToFollowId = req.params.id
+  const currentUserId = req.user?.id
+  const targetUserId = req.params.id
 
-  if (currentUserId === userToFollowId) {
+  console.log("Usuario autenticado:", currentUserId)
+  console.log("Usuario a seguir:", targetUserId)
+  if (!currentUserId || !targetUserId) {
+    return res.status(400).json({ mensaje: "IDs no válidos" })
+  }
+  if (currentUserId === targetUserId) {
     return res.status(400).json({ mensaje: "No podés seguirte a vos mismo." })
   }
 
   try {
     await User.findByIdAndUpdate(currentUserId, {
-      $addToSet: { following: userToFollowId }
+      $addToSet: { following: targetUserId }
     })
 
-    await User.findByIdAndUpdate(userToFollowId, {
+    await User.findByIdAndUpdate(targetUserId, {
       $addToSet: { followers: currentUserId }
     })
 
-    res.json({ mensaje: 'Ahora seguís a este usuario.' });
+    res.status(200).json({ mensaje: "Ahora seguís a este usuario." })
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Error al seguir:", error)
+    res.status(500).json({ mensaje: "Error en el servidor", error: error.message })
   }
 }
+
 
 //Dejar de seguir
 userController.dejarDeSeguirUsuario = async (req, res) => {

@@ -16,11 +16,11 @@ const User = require('../models/user')
 ]*/
 const login = async (req, res) => {
   try {
-    const { nickname } = req.body
+    const { nickname, password } = req.body
     const user = await User.findOne({ nickname })
 
-    if (!user) {
-      return res.status(401).json({ mensaje: 'Credenciales inválidas' })
+    if (!user || user.password !== password) {
+      return res.status(401).json({ mensaje: 'Credenciales inválidas' });
     }
     const payload = {
       id: user._id, 
@@ -37,7 +37,6 @@ const login = async (req, res) => {
     res.status(500).json({ mensaje: 'Error en el servidor', error })
   }
 }
-
 
 const register = async (req, res) => {
   try {
