@@ -116,6 +116,65 @@ seed.js: Conecta con la base de datos, limpia las colecciones y crea usuarios, p
 # Pregunta 3 bonus
 Se implementó caching de publicaciones con Redis utilizando ioredis. Esto mejora el rendimiento de las consultas a posts, evitando lecturas repetidas desde MongoDB. El cache se invalida automaticamente cuando se crea un nuevo post.
 
+# 📸 Screenshot Testeos
+
+---
+
+### Captura 1
+![captura1](./screenshotTest/1.jpeg)
+
+_👉 Acá inicié sesión como trito._
+
+---
+
+### Captura 2
+![captura2](./screenshotTest/2.jpeg)
+
+_👉 Puse que siga a carry por su ID._
+
+---
+
+### Captura 3
+![captura3](./screenshotTest/3.jpeg)
+
+_👉 Se muestra cómo carry tiene un seguidor con el ID de trito._
+
+---
+
+### Captura 4
+![captura4](./screenshotTest/4.jpeg)
+
+_👉 trito sigue a alguien con el ID de carry._
+
+---
+
+### Captura 5
+![captura5](./screenshotTest/5.jpeg)
+
+_👉 Acá la imagen._
+
+---
+
+### Captura 6
+![captura6](./screenshotTest/6.jpeg)
+
+_👉 Post con imagen cargada correctamente._
+
+---
+
+### Captura 7
+![captura7](./screenshotTest/7.jpeg)
+
+_👉 Al iniciar sesión se genera un token de acceso._
+
+---
+
+### Captura 8
+![captura8](./screenshotTest/8.jpeg)
+
+_👉 Así es el proceso para registrarse._
+
+
 # Recomendaciones y ayudas
 
 Les entregamos este link que apunta a un front-end ya desarrollado para que puedan investigarlo y puedan crear el back-end que se ajuste lo maximo posiblel funcionamiento del front.
