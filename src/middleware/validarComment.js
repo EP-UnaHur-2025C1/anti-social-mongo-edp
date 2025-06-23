@@ -1,4 +1,4 @@
-const { body, validationResult } = require('express-validator');
+const { body, validationResult } = require('express-validator')
 const validateComment = [
   body('content')
     .notEmpty().withMessage('El comentario no puede estar vacío')
@@ -10,12 +10,11 @@ const validateComment = [
     .isMongoId().withMessage('El ID del post debe ser válido'),
 
   (req, res, next) => {
-    const errors = validationResult(req);
+    const errors = validationResult(req)
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ errors: errors.array() })
     }
-    next();
+    next()
   }
-];
-
-module.exports = validateComment;
+]
+module.exports = validateComment
