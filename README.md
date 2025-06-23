@@ -113,6 +113,9 @@ Permite tener un entorno de pruebas consistente con datos reales para facilitar 
 
 seed.js: Conecta con la base de datos, limpia las colecciones y crea usuarios, posts, etiquetas y comentarios de ejemplo.
 
+# Pregunta 3 bonus
+Se implementó caching de publicaciones con Redis utilizando ioredis. Esto mejora el rendimiento de las consultas a posts, evitando lecturas repetidas desde MongoDB. El cache se invalida automaticamente cuando se crea un nuevo post.
+
 # Recomendaciones y ayudas
 
 Les entregamos este link que apunta a un front-end ya desarrollado para que puedan investigarlo y puedan crear el back-end que se ajuste lo maximo posiblel funcionamiento del front.
