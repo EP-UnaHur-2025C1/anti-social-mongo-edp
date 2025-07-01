@@ -1,8 +1,7 @@
 require('dotenv').config()
 const express = require('express')
-const mongoose = require('mongoose')
+const conectarDB = require('./config/db')
 const cors = require('cors')
-//const jwt = require('jsonwebtoken')
 const app = express()
 const PORT = process.env.PORT || 3000
 
@@ -36,13 +35,8 @@ const YAML = require('yamljs')
 const swaggerDocument = YAML.load('./swagger.yaml')
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 // Conexión a MongoDB y arranque del servidor
-mongoose.connect(process.env.DB_URI)
-  .then(() => {
-    console.log('Conectado a MongoDB')
-    app.listen(PORT, () => {
-      console.log(`Servidor corriendo en http://localhost:${PORT}`)
-    })
-  })
-  .catch(err => {
-    console.error('Error al conectar a MongoDB:', err)
-  })
+conectarDB()
+
+app.listen(PORT, () => {
+    console.log(`Servidor escuchando en http://localhost:${PORT}`)
+})
