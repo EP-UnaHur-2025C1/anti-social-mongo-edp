@@ -75,12 +75,12 @@ async function seedDatabase() {
       }
     ])
 
-    console.log('Seeders completados con éxito');
-    process.exit();
+    console.log('Seeders completados con éxito')
+    process.exit()
   } catch (err) {
-    console.error('Error al cargar datos:', err);
-    process.exit(1);
+    console.error('Error al cargar datos:', err)
+    process.exit(1)
   }
 }
 
-connectDB().then(seedDatabase);
+connectDB().then(seedDatabase)
