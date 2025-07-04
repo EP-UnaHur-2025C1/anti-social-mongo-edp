@@ -1,14 +1,17 @@
 services:
   mongo:
-    image: mongo
-    container_name: mongo-container
+    image: mongo:7
+    container_name: mongo_antisocial
+    restart: unless-stopped
     ports:
       - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: anti_social
     volumes:
-      - mongo-data:/data/db
+      - ./mongo-data:/data/db                 
+      - ./mongo-init:/docker-entrypoint-initdb.d
 
   redis:
     image: redis

@@ -9,7 +9,7 @@ const Tag = require('../models/tag')
 async function connectDB() {
   try {
     await mongoose.connect(process.env.DB_URI)
-    console.log('Conectado a MongoDB')
+    console.log('Conectado a MongoDB', process.env.DB_URI)
   } catch (err) {
     console.error('Error de conexión:', err)
     process.exit(1)
